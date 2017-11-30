@@ -30,14 +30,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector3 _rotationX = new Vector3(input.XRot(), 0F, 0f);
-        Vector3 _rotationY = new Vector3(0f, input.YRot(), 0f);
-
-        print(_rotationX);
-
         engine.Shoot(input.Shoot());
-//        engine.Move(input.ZMov(), input.XMov());
+
+
         engine.Rotate(joystick.distanceJoystick);
-        engine.RotateCamera(input.XRot(), input.YRot());
     }
 }

@@ -12,12 +12,6 @@ public class PlayerEngine : MonoBehaviour
     private float camRotLimit = 85f;
 
     private Vector3 velocity = Vector3.zero;
-    private float rotation;
-
-    private float cameraRotationX;
-    private float cameraRotationY;
-    private float currentCamRotX = 0;
-    private float currentCamRotY = 0;
 
     private float shoot;
     private bool moving;
@@ -38,6 +32,10 @@ public class PlayerEngine : MonoBehaviour
     private int currentAmmo;
     private int maxAmmo = 30;
 
+    private float cameraRotationY;
+    private float cameraRotationX;
+
+    private float jDistance;
 
     void Awake()
     {
@@ -51,20 +49,31 @@ public class PlayerEngine : MonoBehaviour
         moving = ZMov != 0 || XMove != 0;
     }
 
-    public void Rotate(float distanceJoystick)
+    public void Jodystick(float distanceJoystick)
     {
-        rotation = distanceJoystick;
+        jDistance = distanceJoystick;
     }
-
-    public void RotateCamera(float _cameraRotationX, float _cameraRotationY)
-    {
-        cameraRotationX = _cameraRotationX;
-        cameraRotationY = _cameraRotationY;
-    }
-
     public void Shoot(float _shooting)
     {
         shooting = _shooting != 0;
+    }
+
+    int ChangeFloat(float input)
+    {
+        int output;
+        if (input == 0)
+        {
+            output = 0;
+        }
+        else if(input < 0)
+        {
+            output = -1;
+        }
+        else if(input > 0)
+        {
+            output = 1;
+        }
+        return output;
     }
 
     void FixedUpdate()
@@ -112,7 +121,7 @@ public class PlayerEngine : MonoBehaviour
     {
         cameraRotationY = transform.localEulerAngles.y + Input.GetAxis("Mouse Y");//rotation;
 
-        cameraRotationX += Input.GetAxis("Mouse X");//rotation;
+        cameraRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X");//rotation;
 
         transform.localEulerAngles = new Vector3(-cameraRotationX, cameraRotationY, 0);
     }
