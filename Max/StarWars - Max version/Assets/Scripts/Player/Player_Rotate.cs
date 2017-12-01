@@ -6,11 +6,9 @@ public class Player_Rotate : MonoBehaviour
     public enum RotationAxes { MouseX = 1 }
     public RotationAxes axes = RotationAxes.MouseX;
 
-    public float rotateSpeed = 0.5f;
+    public float rotateSpeed = 0f;
 
     public Transform target;
-
-    public float originAngle = 0.0f;
 
     public bool resetPosition;
 
@@ -18,12 +16,13 @@ public class Player_Rotate : MonoBehaviour
 
     private float rotSpeed;
 
+    public float acceleration = 1.0f;
+    public float maxSpeed;
+
     void Update()
     {
 
-        //DE ROTATION SPEED KRIJGEN
-        rotSpeed = rotateSpeed * Time.deltaTime;
-
+        //DE ROTATION ANGLE KRIJGEN
         currentAngle = target.localEulerAngles.z;
 
         currentAngle = (currentAngle > 180) ? currentAngle - 360 : currentAngle;
@@ -31,14 +30,27 @@ public class Player_Rotate : MonoBehaviour
         //ROTATE NAAR LINKS
         if (Input.GetKey(KeyCode.A))
         {
-                target.Rotate(0, 0, -rotSpeed);
+            rotSpeed = rotateSpeed -= acceleration;
         }
 
         //ROTATE NAAR RECHTS
         if (Input.GetKey(KeyCode.D))
         {
-                target.Rotate(0, 0, rotSpeed);
+            rotSpeed = rotateSpeed += acceleration;
         }
+
+        if (rotSpeed > maxSpeed)
+        {
+            rotSpeed = maxSpeed;
+            rotateSpeed = maxSpeed;
+        }
+        else if (rotSpeed < -maxSpeed)
+        {
+            rotSpeed = -maxSpeed;
+            rotateSpeed = -maxSpeed;
+        }
+
+        target.Rotate(0, 0, rotSpeed);
 
         //NAAR RESET FUNCTIE BRENGEN
         if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
@@ -46,30 +58,33 @@ public class Player_Rotate : MonoBehaviour
             resetPosition = true;
         }
 
-        /*
         //TERUG ZETTEN NAAR ORGINEEL
         if (resetPosition == true)
         {
 
             if ((!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)))
             {
-
-                if (currentAngle > originAngle)
+                if (rotateSpeed >= 0)
                 {
-                    target.Rotate(0, 0, -rotSpeed);
+                    rotateSpeed -= 0.25f;
+                    rotSpeed -= 0.25f;
+                    if (rotateSpeed <= 0)
+                    {
+                        rotateSpeed = 0;
+                        rotSpeed = 0;
+                    }
                 }
-                else if (currentAngle < originAngle)
+                else if (rotateSpeed <= 0)
                 {
-                    target.Rotate(0, 0, rotSpeed);
-                }
-
-                if (currentAngle < 3f && currentAngle > -3f)
-                {
-                    currentAngle = 0;
-                    resetPosition = false;
+                    rotateSpeed += 0.25f;
+                    rotSpeed += 0.25f;
+                    if (rotateSpeed > 0)
+                    {
+                        rotateSpeed = 0;
+                        rotSpeed = 0;
+                    }
                 }
             }
         }
-        */
     }
 }
