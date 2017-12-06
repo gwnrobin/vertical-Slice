@@ -30,8 +30,8 @@ public class Player_mov : MonoBehaviour {
         {
             movement += this.transform.forward;
             curSpeed += acceleration;
-        }
 
+        }
         movement += this.transform.forward;
         movement.Normalize();
         this.transform.position += (movement * Time.deltaTime * curSpeed);
@@ -46,7 +46,7 @@ public class Player_mov : MonoBehaviour {
         }
     }
 
-     void FixedUpdate()
+    void FixedUpdate()
     {
         curSpeed -= acceleration;
     }
