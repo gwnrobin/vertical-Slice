@@ -9,7 +9,8 @@ public class Input_manager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -34,11 +35,13 @@ public class Input_manager : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(1))
         {
-            Cursor.lockState = CursorLockMode.None;
+            //Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         if (Input.GetMouseButtonUp(1))
         {
-            Cursor.lockState = CursorLockMode.Locked;
+           // Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }

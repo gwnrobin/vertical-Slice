@@ -7,7 +7,7 @@ public class Player_mov : MonoBehaviour {
     public float acceleration = 1.0f;
     public float maxSpeed = 60.0f;
 
-    private float curSpeed = 10.0f;
+    private float curSpeed = 11.0f;
 
     private Input_manager inputmanager;
     //public float speed = 10.0f;
@@ -40,7 +40,7 @@ public class Player_mov : MonoBehaviour {
         {
             curSpeed = maxSpeed;
         }
-        if (curSpeed < 10)
+        if (curSpeed <= 10)
         {
             curSpeed = 10;
         }

@@ -4,38 +4,66 @@ using UnityEngine;
 
 public class Camera_Focus : MonoBehaviour
 {
-    public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2,  MouseZ = 1 }
-    public RotationAxes axes = RotationAxes.MouseXAndY;
-    public float sensitivityY = 15F;
-    public float sensitivityX = 15F;
-    public float sensitivityZ = 5F;
-    public float minimumX = -360F;
-    public float maximumX = 360F;
-    public float minimumY = -60F;
-    public float maximumY = 60F;
-    float rotationY = 0F;
+    private Rigidbody myRB;
+    public float moveSpeed;
+    public Player_mov thePlayer;
 
+    public float acceleration = 1.0f;
+    public float maxSpeed = 60.0f;
+
+    private float curSpeed = 11.0f;
+
+    private Input_manager inputmanager;
+
+    // Use this for initialization
+    void Start()
+    {
+        myRB = GetComponent<Rigidbody>();
+        thePlayer = thePlayer.GetComponent<Player_mov>();
+
+        if (!(inputmanager = this.GetComponent<Input_manager>()))
+        {
+            inputmanager = this.gameObject.AddComponent<Input_manager>();
+        }
+
+    }
+    void FixedUpdate()
+    {
+        curSpeed -= acceleration;
+    }
+    // Update is called once per frame
     void Update()
     {
-        if (axes == RotationAxes.MouseXAndY)
-        {
-            float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+        float dist = Vector3.Distance(thePlayer.transform.position, transform.position);
+        transform.LookAt(thePlayer.transform.position);
 
-            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-            rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
-
-            transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-        }
-        else if (axes == RotationAxes.MouseX)
+        Vector3 movement = new Vector3();
+        if (inputmanager.Up())
         {
-            transform.Rotate(0, Input.GetAxis("Mouse Y") * sensitivityY, 0);
-        }
-        else
-        {
-            rotationY -= Input.GetAxis("Mouse Y") * sensitivityY;
-            rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
+            movement += this.transform.forward;
+            curSpeed += acceleration;
 
-            transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, transform.localEulerAngles.z);
         }
+        movement += this.transform.forward;
+        movement.Normalize();
+        this.transform.position += (movement * Time.deltaTime * curSpeed);
+
+        if (curSpeed > maxSpeed)
+        {
+            curSpeed = maxSpeed;
+        }
+        if (curSpeed <= 10)
+        {
+            curSpeed = 10;
+        }
+
+        //if (dist <= 10)
+        // {
+        //      moveSpeed = 0;
+        // }
+        // else
+        // {
+        //     moveSpeed = 10;
+        //   }
     }
 }
