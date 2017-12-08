@@ -47,8 +47,8 @@ public class PlayerEngine : MonoBehaviour
         coll = GetComponent<Collider>();
         laserLine = GetComponent<LineRenderer>();
 
-        //joystick = GameObject.Find("Joystick").GetComponent<JoyStick>();
-        //input = GameObject.Find("GameManager").GetComponent<InputManager>();
+        joystick = GameObject.Find("Joystick").GetComponent<JoyStick>();
+        input = GameObject.Find("GameManager").GetComponent<InputManager>();
     }
 
     public void PerformMovement()
@@ -87,8 +87,8 @@ public class PlayerEngine : MonoBehaviour
     */
     public void performRotation()
     {
-        //cameraRotationX = (transform.localEulerAngles.x + joystick.GetJoyStickPosition().y);
-        //cameraRotationY = (transform.localEulerAngles.y + joystick.GetJoyStickPosition().x);
+        cameraRotationX = (transform.localEulerAngles.x + joystick.GetJoyStickPosition().y);
+        cameraRotationY = (transform.localEulerAngles.y + joystick.GetJoyStickPosition().x);
 
         transform.localEulerAngles = new Vector3(cameraRotationX, cameraRotationY, transform.localEulerAngles.z);
     }
