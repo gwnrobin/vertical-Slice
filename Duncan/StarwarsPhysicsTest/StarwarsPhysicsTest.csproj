@@ -224,10 +224,12 @@
     <Compile Include="Assets\Scripts\HealthBar.cs" />
     <Compile Include="Assets\Scripts\Input_manager.cs" />
     <Compile Include="Assets\Scripts\PickUps.cs" />
+    <Compile Include="Assets\Scripts\Player_ActiveShield.cs" />
     <Compile Include="Assets\Scripts\Player_health.cs" />
     <Compile Include="Assets\Scripts\Player_mov.cs" />
     <Compile Include="Assets\Scripts\player_movement.cs" />
     <Compile Include="Assets\Scripts\Radar.cs" />
+    <Compile Include="Assets\Scripts\Timer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
